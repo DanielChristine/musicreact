@@ -1,13 +1,36 @@
 import React, { Component } from "react";
 import "./App.css";
-// import './Get';
 import axios from "axios";
-import Form from "./Table";
+
 
 export default class App extends Component {
-  state = {
-    music: [],
-  };
+  constructor(){ 
+    super() 
+    this.state = {
+      music: []
+    } 
+    this.handleChange = this.handleChange.bind(this) 
+    this.handleSubmit = this.handleSubmit.bind(this) 
+  } 
+
+  handleSubmit(event){ 
+    const { title, artist, album, genre, releasedate } = this.state 
+    event.preventDefault() 
+    alert(` 
+      ____Your Details____\n 
+      Title : ${title} 
+      artist : ${artist} 
+      album : ${album} 
+      genre : ${genre} 
+      releasedate : ${releasedate} 
+    `) 
+  } 
+  
+  handleChange(event){ 
+    this.setState({ [event.target.music] : event.target.value 
+    }) 
+  } 
+
   componentDidMount() {
     axios.get(`http://localhost:5000/api/songs`).then((res) => {
       const music = res.data;
@@ -16,39 +39,76 @@ export default class App extends Component {
   }
 
 
-  handleChange = event => {
-    this.setState({ song: event.target.value });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
-
-    axios.delete(`http://localhost:5000/${this.state.song}`)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-  }
-
   render() {
     return (
       <div>
         
         <div>
-        <table>
+        <table id="table">
           <th>Title</th><th>Artist</th>
           {this.state.music.map((song) => (
             <tr>
               <td key="id">{song.title}</td>
               <td>{song.artist}</td>
+              <td>{song.artist}</td>
             </tr>
           ))}
         </table>
         </div>
+        <div>
+       <button onClick={this.showForm}>Form</button>
+       </div>
 
-       <button onClick={Form}>Form</button>
-
-
+       <form id='formForPage' onSubmit={this.handleSubmit}> 
+        <div> 
+          <label htmlFor='title'>title</label> 
+          <input  
+            name='title'
+            placeholder='title' 
+            value = {this.state.title} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='artist'>artist</label> 
+          <input 
+            name='artist' 
+            placeholder='Artist'
+            value={this.state.artist} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='album'>Album</label> 
+          <input 
+            name='album' 
+            placeholder='Album'
+            value={this.state.album} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='genre'>Genre</label> 
+          <input 
+            name='genre' 
+            placeholder='genre'
+            value={this.state.genre} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='releasedate'>Release Date</label> 
+          <input 
+            name='releasedate' 
+            placeholder='releasedate'
+            value={this.state.releasedate} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <button>Action</button> 
+        </div> 
+      </form> 
       </div>
     )
   }
