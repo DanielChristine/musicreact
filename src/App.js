@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 // import './Get';
 import axios from "axios";
-import DynamicTable from "./Table";
+import Form from "./Table";
 
 export default class App extends Component {
   state = {
@@ -15,20 +15,42 @@ export default class App extends Component {
     });
   }
 
+
+  handleChange = event => {
+    this.setState({ song: event.target.value });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    axios.delete(`http://localhost:5000/${this.state.song}`)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+  }
+
   render() {
     return (
-      <div className="App">
+      <div>
+        
+        <div>
         <table>
+          <th>Title</th><th>Artist</th>
           {this.state.music.map((song) => (
             <tr>
-              <td>{song.title}</td>
+              <td key="id">{song.title}</td>
               <td>{song.artist}</td>
             </tr>
           ))}
         </table>
+        </div>
 
-        <button onClick={DynamicTable}>Make a get</button>
+       <button onClick={Form}>Form</button>
+
+
       </div>
-    );
+    )
   }
 }
+

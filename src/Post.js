@@ -20,7 +20,7 @@ export default class Post extends React.Component {
     //   releasedate: this.state.releasedate,
     };
 
-    axios.post(`http://www.devcodecampmusiclibrary.com/api/music`, { data })
+    axios.post(`http://localhost:5000/api/songs`, { data })
       .then(res => {
         console.log(res);
         console.log(res.data);

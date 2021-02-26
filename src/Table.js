@@ -1,89 +1,85 @@
-import React, {Component} from "react";
+import React,{ Component } from 'react'
+  
+class Form extends Component{ 
+  constructor(props){ 
+    super(props) 
+    this.state = { title:'',artist:'', album:null, genre:'',releasedate:''} 
+    this.handleChange = this.handleChange.bind(this) 
+    this.handleSubmit = this.handleSubmit.bind(this) 
+  } 
 
-class DynamicTable extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      music: []
-    };
-  }
-
-
-  handleClick() {
-    var music = this.state.music;
-
-    music.push(this.state.message);
-
-    this.setState({
-      music: music,
-    });
-  }
-
-  handleItemChanged(i, event) {
-    var music = this.state.music;
-    music[i] = event.target.value;
-
-    this.setState({
-      music: music,
-    });
-  }
-
-  handleItemDeleted(i) {
-    var music = this.state.music;
-
-    music.splice(i, 1);
-
-    this.setState({
-      music: music,
-    });
-  }
-
-  renderRows() {
-    var context = this;
-
-    return this.state.music.map(function (o, i) {
-      return (
-        <tr key={"item-" + i}>
-          <td>
-            <input
-              type="text"
-              value={o}
-              onChange={context.handleItemChanged.bind(context, i)}
-            />
-          </td>
-          <td>
-            <button onClick={context.handleItemDeleted.bind(context, i)}>
-              Delete
-            </button>
-          </td>
-        </tr>
-      );
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <table className="">
-          <thead>
-            <tr>
-              <th>music</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{this.renderRows()}</tbody>
-        </table>
-        <hr />
-        <input
-          type="text"
-          value={this.state.message}
-          onChange={this.updateMessage.bind(this)}
-        />
-        <button onClick={this.handleClick.bind(this)}>Add Item</button>
-      </div>
-    );
-  }
-}
-
-export default DynamicTable;
+  handleSubmit(event){ 
+    const { title, artist, album, genre, releasedate } = this.state 
+    event.preventDefault() 
+    alert(` 
+      ____Your Details____\n 
+      Title : ${title} 
+      artist : ${artist} 
+      album : ${album} 
+      genre : ${genre} 
+      releasedate : ${releasedate} 
+    `) 
+  } 
+  
+  handleChange(event){ 
+    this.setState({ [event.target.music] : event.target.value 
+    }) 
+  } 
+  
+  render(){ 
+    return( 
+      <form onSubmit={this.handleSubmit}> 
+        <div> 
+          <label htmlFor='title'>title</label> 
+          <input  
+            name='title'
+            placeholder='title' 
+            value = {this.state.title} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='artist'>artist</label> 
+          <input 
+            name='artist' 
+            placeholder='Artist'
+            value={this.state.artist} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='album'>Album</label> 
+          <input 
+            name='album' 
+            placeholder='Album'
+            value={this.state.album} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='genre'>Genre</label> 
+          <input 
+            name='genre' 
+            placeholder='genre'
+            value={this.state.genre} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <label htmlFor='releasedate'>Release Date</label> 
+          <input 
+            name='releasedate' 
+            placeholder='releasedate'
+            value={this.state.releasedate} 
+            onChange={this.handleChange} 
+          /> 
+        </div> 
+        <div> 
+          <button>Action</button> 
+        </div> 
+      </form> 
+    ) 
+  } 
+} 
+  
+export default Form
